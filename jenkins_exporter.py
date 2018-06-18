@@ -293,42 +293,42 @@ class JenkinsCollector(object):
         self._prom_metrics['temporarily_offline'] = GaugeMetricFamily(
             'jenkins_node_temporarily_offline',
             'If the node is offline only temporarily.',
-            labels=['node']
+            labels=['node'],
         )
         self._prom_metrics['busy'] = GaugeMetricFamily(
             'jenkins_node_busy',
             'If the node is busy.',
-            labels=['node']
+            labels=['node'],
         )
         self._prom_metrics['skew'] = GaugeMetricFamily(
             'jenkins_node_clock_skew_seconds',
             'Estimated clock skew from the Jenkins master in seconds.',
-            labels=['node']
+            labels=['node'],
         )
         self._prom_metrics['queue'] = GaugeMetricFamily(
             'jenkins_job_queue_time_seconds',
             'Time the oldest pending task has spent in the queue.',
-            labels=['jenkins_job', 'jenkins_job_config']
+            labels=['jenkins_job', 'jenkins_job_config'],
         )
         self._prom_metrics['queue_count'] = GaugeMetricFamily(
             'jenkins_job_queue_size',
             'Number of tasks currently in the queue.',
-            labels=['jenkins_job', 'jenkins_job_config']
+            labels=['jenkins_job', 'jenkins_job_config'],
         )
         self._prom_metrics['jenkins_latency'] = GaugeMetricFamily(
             'jenkins_api_latency_seconds',
             'Latency when making API calls to the Jenkins master.',
-            labels=['url']
+            labels=['url'],
         )
         self._prom_metrics['jenkins_response'] = GaugeMetricFamily(
             'jenkins_api_response_code',
             'HTTP response code of the Jenkins API.',
-            labels=['url']
+            labels=['url'],
         )
         self._prom_metrics['jenkins_fetch_ok'] = GaugeMetricFamily(
             'jenkins_api_fetch_ok',
             'If the HTTP response of Jenkins was successful',
-            labels=['url']
+            labels=['url'],
         )
         self._prom_metrics['dropped_job_urls'] = GaugeMetricFamily(
             'jenkins_dropped_job_urls',
@@ -444,28 +444,28 @@ class JenkinsCollector(object):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='jenkins exporter args jenkins address and port'
+        description='jenkins exporter args jenkins address and port',
     )
     parser.add_argument(
         '-j', '--jenkins',
         metavar='jenkins',
         required=False,
         help='server url from the jenkins api',
-        default=os.environ.get('JENKINS_SERVER', 'http://jenkins:8080')
+        default=os.environ.get('JENKINS_SERVER', 'http://jenkins:8080'),
     )
     parser.add_argument(
         '--user',
         metavar='user',
         required=False,
         help='jenkins api user',
-        default=os.environ.get('JENKINS_USER')
+        default=os.environ.get('JENKINS_USER'),
     )
     parser.add_argument(
         '--password',
         metavar='password',
         required=False,
         help='jenkins api password',
-        default=os.environ.get('JENKINS_PASSWORD')
+        default=os.environ.get('JENKINS_PASSWORD'),
     )
     parser.add_argument(
         '-p', '--port',
@@ -473,7 +473,7 @@ def parse_args():
         required=False,
         type=int,
         help='Listen to this port',
-        default=int(os.environ.get('VIRTUAL_PORT', '9118'))
+        default=int(os.environ.get('VIRTUAL_PORT', '9118')),
     )
     parser.add_argument(
         '--timeout-secs',
