@@ -1,4 +1,4 @@
-FROM python:2-slim
+FROM python:3-slim
 
 RUN apt-get update \
  && apt-get install -y supervisor=3.3.1-1+deb9u1 --no-install-recommends \

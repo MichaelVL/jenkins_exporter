@@ -1,14 +1,13 @@
 #!/usr/bin/python
 
-from HTMLParser import HTMLParser
-from itertools import izip
+from html.parser import HTMLParser
 from pprint import pprint
 import argparse
 import collections
 import re
 import requests
 import time
-import urlparse
+import urllib.parse
 
 import os
 from sys import exit
@@ -26,7 +25,7 @@ def map_url_to_job_config(url, config_mapping):
     """Return job name and config of the longest matching URL in the config mapping."""
     job_name, job_config = (None, None)
     match_length = 0
-    for candidate_url, match in config_mapping.iteritems():
+    for candidate_url, match in config_mapping.items():
         if url.startswith(candidate_url) and len(candidate_url) > match_length:
             job_name, job_config = match
             match_length = len(candidate_url)
@@ -40,7 +39,7 @@ def convert_timestring_to_secs(timestring):
     if (len(tokens) % 2) != 0:
         # We don't have pairs, so something went wrong in the parsing.
         return None
-    pairs = izip(tokens[0::2], tokens[1::2])
+    pairs = zip(tokens[0::2], tokens[1::2])
 
     # These are defined in core/src/main/resources/hudson/Messages.properties and
     # core/src/main/java/hudson/Util.java.
@@ -116,7 +115,7 @@ class JenkinsCollector(object):
         for job in jobs:
             name = job['name']
             if DEBUG:
-                print "Found Job: %s" % name
+                print("Found Job: %s" % name)
                 pprint(job)
             self._get_metrics(name, job)
 
@@ -127,7 +126,7 @@ class JenkinsCollector(object):
             for metric in self._prometheus_metrics[status].values():
                 yield metric
 
-        for metric in self._prom_metrics.itervalues():
+        for metric in self._prom_metrics.values():
             yield metric
 
     def _jenkins_call(self, url_fragment, params=None):
@@ -142,7 +141,7 @@ class JenkinsCollector(object):
             [url_fragment], response.status_code)
         if response.status_code != requests.codes.ok:
             self._prom_metrics['jenkins_fetch_ok'].add_metric([url_fragment], 0)
-            print url, response.status_code
+            print(url, response.status_code)
             return None, initial_time
         self._prom_metrics['jenkins_fetch_ok'].add_metric([url_fragment], 1)
 
@@ -213,8 +212,8 @@ class JenkinsCollector(object):
             old_max = max_queue_time[job_name][job_config]
             max_queue_time[job_name][job_config] = max(old_max, queuing_time)
 
-        # Note: this is itervalues(), not iteritems().
-        for job_name, job_config in config_mapping.itervalues():
+        # Note: this is values(), not items().
+        for job_name, job_config in config_mapping.values():
             self._prom_metrics['queue'].add_metric(
                 [job_name, job_config], max_queue_time[job_name][job_config])
             self._prom_metrics['queue_count'].add_metric(
@@ -379,7 +378,7 @@ class JenkinsCollector(object):
             executing_builds_breakdown[job_name][job_config].append(build)
 
         # Report over all job configs here, so things return to zero when they're done.
-        for job_name, job_config in config_mapping.itervalues():
+        for job_name, job_config in config_mapping.values():
             builds = executing_builds_breakdown[job_name][job_config]
 
             self._prom_metrics['executing_builds'].add_metric(
@@ -388,9 +387,9 @@ class JenkinsCollector(object):
             def get_timestamp_from_build_url(build_url):
                 """Parse the build's status page for current duration."""
                 # Remove the host, scheme and port off the build_url.
-                fragments = urlparse.urlsplit(build_url)
-                build_url_part = urlparse.urlunsplit(
-                    (0, 0, fragments[2], fragments[3], fragments[4]))
+                fragments = urllib.parse.urlsplit(build_url)
+                build_url_part = urllib.parse.urlunsplit(
+                    ('', '', fragments[2], fragments[3], fragments[4]))
                 data, _ = self._jenkins_call(build_url_part)
                 if data is None:
                     return None
@@ -496,7 +495,7 @@ def main():
             args.timeout_secs,
         ))
         start_http_server(port)
-        print "Polling %s. Serving at port: %s" % (args.jenkins, port)
+        print("Polling %s. Serving at port: %s" % (args.jenkins, port))
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
