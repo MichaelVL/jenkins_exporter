@@ -1,9 +1,7 @@
-FROM python:3-slim
+FROM python:3.6-alpine
 
-RUN apt-get update \
- && apt-get install -y supervisor=3.3.1-1+deb9u1 --no-install-recommends \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache supervisor=3.1.4-r0
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
@@ -19,7 +17,7 @@ ENV JENKINS_SERVER=http://jenkins:8080 VIRTUAL_PORT=9118 DEBUG=0
 RUN mkdir -p /var/log/supervisor
 
 # Copy the supervisor config file
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 
 # Run the app
 CMD ["/usr/bin/supervisord"]
