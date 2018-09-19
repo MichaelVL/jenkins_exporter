@@ -1,6 +1,6 @@
 FROM python:3.6-alpine
 
-RUN apk add --no-cache supervisor=3.1.4-r0
+RUN apk add --no-cache supervisor=3.3.4-r1
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
