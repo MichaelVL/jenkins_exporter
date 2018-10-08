@@ -1,6 +1,9 @@
 ---
-# Use new travis-ci container-based infrastructure.
-sudo: false
+# Use a sudo-enabled environment to allow Docker support
+sudo: required
+
+services:
+    - docker
 
 language: python
 
@@ -16,3 +19,4 @@ script:
     - flake8 jenkins_exporter.py --max-line-length=140 -v --ignore=
     - yamllint --strict .travis.yml
     - python test.py
+    - docker build -t abletondevtools/jenkins_exporter .
