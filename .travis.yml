@@ -1,13 +1,24 @@
 ---
+# Use a sudo-enabled environment to allow Docker support
+sudo: required
+
+services:
+    - docker
+
 language: python
+
 python:
     - "3.6"
-# command to install dependencies
-install: "pip install -r requirements.txt flake8 flake8-commas yamllint"
-# command to run tests
+
+# Install dependencies.
+install:
+    - pip install -r requirements.txt flake8 flake8-commas yamllint
+    - docker pull hadolint/hadolint:v1.6.6
+
+# Run tests.
 script:
     - flake8 jenkins_exporter.py --max-line-length=140 -v --ignore=
     - yamllint --strict .travis.yml
     - python test.py
-# use new travis-ci container-based infrastructure
-sudo: false
+    - docker run --rm -i hadolint/hadolint:v1.6.6 < Dockerfile
+    - docker build -t abletondevtools/jenkins_exporter .
