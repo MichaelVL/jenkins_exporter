@@ -1,3 +1,7 @@
+# This Repository is Unmaintained
+
+This repository is currently unmaintained, and will not see any future development here.
+
 # Jenkins Exporter
 
 Jenkins exporter for prometheus.io, written in python.
@@ -31,18 +35,3 @@ For more information see
     git clone git@github.com:AbletonDevTools/jenkins_exporter.git
     cd jenkins_exporter
     pip install -r requirements.txt
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request
-
-## Maintainers
-
-* [@ala-ableton](https://github.com/ala-ableton)
-* [@mst-ableton](https://github.com/mst-ableton)
-* [@nre-ableton](https://github.com/nre-ableton)
-* [@rco-ableton](https://github.com/rco-ableton)
