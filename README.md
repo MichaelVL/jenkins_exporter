@@ -1,7 +1,5 @@
 # Jenkins Exporter
 
-[![Build Status](https://travis-ci.org/AbletonDevTools/jenkins_exporter.svg?branch=master)](https://travis-ci.org/AbletonDevTools/jenkins_exporter)
-
 Jenkins exporter for prometheus.io, written in python.
 
 This exporter is forked from Lovoo's [jenkins_exporter](
