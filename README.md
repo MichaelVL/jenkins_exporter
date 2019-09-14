@@ -1,16 +1,8 @@
-# This Repository is Unmaintained
-
-This repository is currently unmaintained, and will not see any future development here.
-
 # Jenkins Exporter
 
-Jenkins exporter for prometheus.io, written in python.
+Jenkins exporter for prometheus, written in python.
 
-This exporter is forked from Lovoo's [jenkins_exporter](
-https://github.com/lovoo/jenkins_exporter), which is based on Robust
-Perception's python exporter example:
-For more information see
-(http://www.robustperception.io/writing-a-jenkins-exporter-in-python)
+[![CircleCI](https://circleci.com/gh/MichaelVL/jenkins_exporter.svg?style=svg)](https://circleci.com/gh/MichaelVL/jenkins_exporter)
 
 ## Usage
 
@@ -25,13 +17,12 @@ For more information see
       --password password   jenkins api password
       -p port, --port port  Listen to this port
 
-#### Example
+## Deployment on Kubernetes
 
-    docker run -d -p 9118:9118 AbletonDevTools/jenkins_exporter:latest -j http://jenkins:8080 -p 9118
+See the deploy/kubernetes folder.
 
+## Heritage
 
-## Installation
-
-    git clone git@github.com:AbletonDevTools/jenkins_exporter.git
-    cd jenkins_exporter
-    pip install -r requirements.txt
+- AbletonDevTools [jenkins_exporter](https://github.com/AbletonDevTools/jenkins_exporter)
+- Lovoo's [jenkins_exporter](https://github.com/lovoo/jenkins_exporter)
+- Perception's [python exporter example](http://www.robustperception.io/writing-a-jenkins-exporter-in-python)
