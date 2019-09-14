@@ -1,6 +1,5 @@
+#FROM python:2-slim
 FROM python:3.6-alpine
-
-RUN apk add --no-cache supervisor=3.3.4-r1
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -13,11 +12,4 @@ COPY jenkins_exporter.py /usr/src/app
 EXPOSE 9118
 ENV JENKINS_SERVER=http://jenkins:8080 VIRTUAL_PORT=9118 DEBUG=0
 
-# Create a log directory for supervisor
-RUN mkdir -p /var/log/supervisor
-
-# Copy the supervisor config file
-COPY supervisord.conf /etc/supervisord.conf
-
-# Run the app
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT [ "python", "-u", "./jenkins_exporter.py" ]
